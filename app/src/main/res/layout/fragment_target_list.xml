@@ -6,17 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".TargetListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add" />
+        <TextView android:id="@+id/tvTargetList"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="Target List:"
+            android:textSize="20dp"/>
+
+        <ListView android:id="@+id/lvTargetList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tvTargetList"></ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="end|bottom"/>
+
+    </RelativeLayout>
+
+
 
 </FrameLayout>

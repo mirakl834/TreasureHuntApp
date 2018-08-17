@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import java.io.File;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -34,6 +35,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class CreateTargetFragment extends Fragment implements View.OnClickListener, OnMapReadyCallback,
@@ -149,7 +154,6 @@ public class CreateTargetFragment extends Fragment implements View.OnClickListen
         updateLocationUI();
     }
 
-
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -230,7 +234,25 @@ public class CreateTargetFragment extends Fragment implements View.OnClickListen
                 String sTitle = this.etTitle.getText().toString();
                 String sDescription = this.etDescription.getText().toString();
                 String sTargetMsg = this.etTargetMsg.getText().toString();
-                String sLocation = "Latitude - " + mMarker.getPosition().latitude + "\nLongitude - " + mMarker.getPosition().longitude;
+                String sLocation = "" + mMarker.getPosition().latitude + ":" + mMarker.getPosition().longitude;
+
+                String text = sTitle+';'+sDescription+';'+sTargetMsg+';'+sLocation+';'+false+'|';
+                FileOutputStream fileOutputStream = null;
+                try{
+                    fileOutputStream = this.getActivity().openFileOutput("hunt.txt", Context.MODE_APPEND);
+                    fileOutputStream.write(text.getBytes());
+                    fileOutputStream.close();
+                }catch (FileNotFoundException e){
+                    e.printStackTrace();
+                } catch (IOException e){
+                    e.printStackTrace();
+                } finally {
+                    try{
+                        fileOutputStream.close();
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
 
                 String sMsg = "Title: " + sTitle + "\n" +
                     "Description: " + sDescription + "\n"+

@@ -37,6 +37,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements CreateTargetFragment.OnFragmentInteractionListener, TargetListFragment.OnFragmentInteractionListener {
 
     final String FCREATE = "FCREATE";
@@ -57,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
 
         //Instantiating top fragment
         fm = getSupportFragmentManager();
-        this.fCreateTarget = new CreateTargetFragment();
         FragmentTransaction ftContainer = fm.beginTransaction();
-        ftContainer.replace(R.id.flContainer,fCreateTarget, FCREATE);
+        this.fTargetList= new TargetListFragment();
+        ftContainer.replace(R.id.flContainer,fTargetList, FLIST);
         ftContainer.commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -138,15 +142,12 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
                 .setCancelable(false)
                 .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, close
-                        // current activity
                         dialog.dismiss();
+                        switchTargetListFragment();
                     }
                 })
                 .setNegativeButton("No",new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int id) {
-                        // if this button is clicked, just close
-                        // the dialog box and do nothing
                         dialog.cancel();
                     }
                 });
@@ -160,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
 
     @Override
     public void goChangeMarkerLocation(LatLng llMarker) {
-
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
@@ -194,5 +194,33 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
         // show it
         alertDialog.show();
 
+    }
+
+    @Override
+    public void goDeleteTarget(String sTargetList) {
+        FileOutputStream fileOutputStream = null;
+        try{
+            fileOutputStream = openFileOutput("hunt.txt", Context.MODE_PRIVATE);
+            fileOutputStream.write(sTargetList.getBytes());
+            fileOutputStream.close();
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try{
+                fileOutputStream.close();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        switchCreateTargetFragment();
+    }
+
+    @Override
+    public void goBeginHunt(String sTargetInfo) {
+        Intent huntBeginIntent = new Intent(this,HuntBeginActivity.class);
+        huntBeginIntent.putExtra("targetInfo", sTargetInfo);
+        startActivity(huntBeginIntent);
     }
 }
