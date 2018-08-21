@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
     final String FCREATE = "FCREATE";
     final String FLIST = "FLIST";
 
-    String currentFragment = FCREATE;
+    String currentFragment = FLIST;
 
     FragmentManager fm;
     CreateTargetFragment fCreateTarget;
@@ -81,14 +81,12 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     if(currentFragment != FLIST){
-                        currentFragment = FLIST;
                         switchTargetListFragment();
                         return true;
                     }
                     break;
                 case R.id.navigation_dashboard:
                     if(currentFragment != FCREATE){
-                        currentFragment = FCREATE;
                         switchCreateTargetFragment();
                         return true;
                     }
@@ -103,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
     };
 
     private void switchTargetListFragment(){
+        currentFragment = FLIST;
         if(fTargetList!=null){
             FragmentTransaction ftContainer = fm.beginTransaction();
             ftContainer.replace(R.id.flContainer,fTargetList, FLIST);
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements CreateTargetFragm
     }
 
     private void switchCreateTargetFragment(){
+        currentFragment = FCREATE;
         if(fCreateTarget!=null){
             FragmentTransaction ftContainer = fm.beginTransaction();
             ftContainer.replace(R.id.flContainer,fCreateTarget, FCREATE);

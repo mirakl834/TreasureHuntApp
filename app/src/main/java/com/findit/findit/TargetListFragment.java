@@ -137,7 +137,7 @@ public class TargetListFragment extends Fragment implements AdapterView.OnItemCl
 
         if (viewId == R.id.tvTargetTitle){
             Target t = this.targetList.get(i);
-            Toast.makeText(getActivity(), "TargetTitle"+i, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "TargetTitle"+i, Toast.LENGTH_SHORT).show();
             mListener.goBeginHunt(t.sTitle+';'+t.sDescription+';'+t.sTargetMsg+';'+t.sLocation);
 
         }
